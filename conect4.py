@@ -102,11 +102,10 @@ class InterfaceConecta4(js.JuegoInterface):
             jugada = int(input("Jugada: "))
         return jugada
 
-def ordena_centro(jugadas, jugador):
-    """
-    Ordena las jugadas de acuerdo a la distancia al centro
-    """
-    return sorted(jugadas, key=lambda x: abs(x - 4))
+def ordena_mejor(jugadas, jugador):
+    prioridad = [3, 2, 4, 1, 5, 0, 6]
+
+    return sorted(jugadas, key=lambda x: prioridad.index(x))
 
 def evalua_3con(s):
     """
@@ -157,7 +156,7 @@ if __name__ == '__main__':
         "Jugador 2": "Aleatorio",   #Puede ser "Humano", "Aleatorio", "Negamax", "Tiempo"
         "profundidad máxima": 5,
         "tiempo": 10,
-        "ordena": ordena_centro,    #Puede ser None o una función f(jugadas, j) -> lista de jugadas ordenada
+        "ordena": ordena_mejor,    #Puede ser None o una función f(jugadas, j) -> lista de jugadas ordenada
         "evalua": evalua_3con       #Puede ser None o una función f(estado) -> número entre -1 y 1
     }
 
