@@ -79,18 +79,25 @@ Permite:
 * Mejor experiencia de usuario en consola
 
 ---
-
 ## Requisitos
 
 Instalar la librería necesaria con:
 
+```bash
 pip install rich
+```
+
+---
+
 ## Ejecución
 
 Para ejecutar el juego:
 
+```bash
 python ultimate_ttt.py
+```
 
+---
 
 
 
