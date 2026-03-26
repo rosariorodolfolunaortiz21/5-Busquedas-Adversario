@@ -159,3 +159,62 @@ class UltimateInterface(js.JuegoInterface):
 
         return a
 
+
+# =========================================================
+# HEURÍSTICA
+# =========================================================
+
+def evalua_ultimate(estado):
+    tablero, _ = estado
+    score = 0
+
+    def gana_sub(s):
+        if s[0] == s[4] == s[8] != 0: return s[0]
+        if s[2] == s[4] == s[6] != 0: return s[2]
+        for i in range(3):
+            if s[3*i] == s[3*i+1] == s[3*i+2] != 0: return s[3*i]
+            if s[i] == s[i+3] == s[i+6] != 0: return s[i]
+        return 0
+
+    def eval_sub(sub):
+        g = gana_sub(sub)
+        if g == 1: return 1
+        if g == -1: return -1
+
+        puntos = 0
+
+        lineas = [
+            [0,1,2],[3,4,5],[6,7,8],
+            [0,3,6],[1,4,7],[2,5,8],
+            [0,4,8],[2,4,6]
+        ]
+
+        for l in lineas:
+            vals = [sub[i] for i in l]
+
+            if vals.count(1) == 2 and vals.count(0) == 1:
+                puntos += 0.4
+
+            if vals.count(-1) == 2 and vals.count(0) == 1:
+                puntos -= 0.7  # defender MÁS fuerte
+
+        return puntos
+
+    grandes = []
+
+    for i in range(9):
+        sub = tablero[i*9:(i+1)*9]
+        g = gana_sub(sub)
+
+        if g == 1:
+            score += 0.9
+        elif g == -1:
+            score -= 0.9
+
+        score += eval_sub(sub)
+        grandes.append(g)
+
+    #  SUPER IMPORTANTE: tablero grande
+    score += eval_sub(grandes) * 4
+
+    return max(min(score, 1), -1)
