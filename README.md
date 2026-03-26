@@ -1,6 +1,6 @@
 
 # Búsquedas con Adversarios (Minimax + α-β)
-Autor:ROSARIO RODOLFO LUNA ORTIZ
+Autor: ROSARIO RODOLFO LUNA ORTIZ
 ## Descripción
 
 Este proyecto implementa algoritmos de búsqueda con adversarios utilizando Minimax con poda α-β, aplicados a juegos de tablero.
