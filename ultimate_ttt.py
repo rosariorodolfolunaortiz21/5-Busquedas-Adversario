@@ -83,3 +83,79 @@ class UltimateTTT(js.JuegoZT2):
         tablero, _ = estado
         return self.ganancia(estado) != 0 or 0 not in tablero
 
+
+# =========================================================
+# INTERFAZ
+# =========================================================
+
+from rich.console import Console
+from rich.table import Table
+from rich import box
+
+console = Console()
+
+class UltimateInterface(js.JuegoInterface):
+
+    def muestra_estado(self, estado):
+        tablero, activo = estado
+
+        console.print(
+            f"\n[bold yellow]Tablero activo:[/bold yellow] "
+            f"{activo if activo is not None else '[green]LIBRE[/green]'}\n"
+        )
+
+        for bf in range(3):
+
+            table = Table(show_header=False, box=box.SQUARE)
+
+            for _ in range(3):
+                table.add_column(justify="center")
+
+            for fila in range(3):
+                row = []
+
+                for bc in range(3):
+                    base = (bf*3 + bc) * 9
+                    inicio = base + fila*3
+
+                    sub = []
+                    for k in range(3):
+                        val = tablero[inicio + k]
+
+                        if val == 1:
+                            sub.append("[bold red]X[/bold red]")
+                        elif val == -1:
+                            sub.append("[bold blue]O[/bold blue]")
+                        else:
+                            sub.append("[dim].[/dim]")
+
+                    row.append(" ".join(sub))
+
+                table.add_row(*row)
+
+            console.print(table)
+            console.print("")
+
+    def muestra_ganador(self, g):
+        if g == 1:
+            console.print("[bold red] Gana X [/bold red]")
+        elif g == -1:
+            console.print("[bold blue] Gana O [/bold blue]")
+        else:
+            console.print("[bold yellow] Empate [/bold yellow]")
+
+    def jugador_humano(self, estado, j):
+        jugadas = self.juego.jugadas_legales(estado, j)
+
+        console.print(f"\n[bold]Jugador:[/bold] {'X' if j == 1 else 'O'}")
+        console.print(f"[cyan]Jugadas legales:[/cyan] {jugadas}")
+
+        a = None
+        while a not in jugadas:
+            try:
+                a = int(input("Jugada (0-80): "))
+            except:
+                continue
+
+        return a
+
