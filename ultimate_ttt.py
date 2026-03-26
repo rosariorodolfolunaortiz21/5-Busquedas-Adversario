@@ -218,3 +218,47 @@ def evalua_ultimate(estado):
     score += eval_sub(grandes) * 4
 
     return max(min(score, 1), -1)
+
+
+# =========================================================
+# ORDENAMIENTO (mejor poda)
+# =========================================================
+
+def ordena_mejor(jugadas, jugador):
+    # centro de cada subtablero
+    return sorted(jugadas, key=lambda x: abs((x % 9) - 4))
+
+
+# =========================================================
+# MAIN
+# =========================================================
+
+if __name__ == '__main__':
+
+    cfg = {
+        "Jugador 1": "Humano",
+        "Jugador 2": "Tiempo",
+        "tiempo": 6,
+        "evalua": evalua_ultimate,
+        "ordena": ordena_mejor
+    }
+
+    def jugador_cfg(tipo):
+        if tipo == "Humano":
+            return "Humano"
+        elif tipo == "Aleatorio":
+            return js.JugadorAleatorio()
+        elif tipo == "Tiempo":
+            return minimax.JugadorMinimaxIterativo(
+                tiempo=cfg["tiempo"],
+                ordena=cfg["ordena"],
+                evalua=cfg["evalua"]
+            )
+
+    interfaz = UltimateInterface(
+        UltimateTTT(),
+        jugador1=jugador_cfg(cfg["Jugador 1"]),
+        jugador2=jugador_cfg(cfg["Jugador 2"])
+    )
+
+    interfaz.juega()
