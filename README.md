@@ -85,17 +85,11 @@ Permite:
 Instalar la librería necesaria con:
 
 pip install rich
-
-
-
-
 ## Ejecución
 
 Para ejecutar el juego:
 
 python ultimate_ttt.py
-
-
 
 
 
